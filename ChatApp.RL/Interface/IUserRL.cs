@@ -8,5 +8,6 @@ namespace ChatApp.RL.Interface
     public interface IUserRL
     {
         ShowUserInformation UserRegistration(UserModel user);
+        ShowUserInformation UserLogin(LoginModel data);
     }
 }

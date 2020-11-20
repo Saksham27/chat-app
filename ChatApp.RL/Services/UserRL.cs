@@ -75,5 +75,42 @@ namespace ChatApp.RL.Services
             }
         }
 
+        public ShowUserInformation UserLogin(LoginModel data)
+        {
+            SqlConnection connection = DatabaseConnection();
+            try
+            {
+                SqlCommand command = StoredProcedureConnection("spLoginUser", connection);
+                command.Parameters.Add("@EmailID", SqlDbType.VarChar, 50).Value = data.EmailID;
+                command.Parameters.Add("@Password", SqlDbType.VarChar, 50).Value = PasswordEncryptDecrypt.EncodePasswordToBase64(data.Password);
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read() == false)
+                {
+                    return null;
+                }
+                else
+                {
+                    return new ShowUserInformation
+                    {
+                        Id = reader.GetInt32(0),
+                        EmailID = reader.GetString(1),
+                        UserName = reader.GetString(3),
+                        RegistationDate = reader.GetDateTime(4).ToString()
+                    };
+                }
+
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
     }
 }

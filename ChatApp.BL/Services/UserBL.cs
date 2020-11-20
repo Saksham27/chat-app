@@ -44,5 +44,34 @@ namespace ChatApp.BL.Services
             }
             return response;
         }
+
+        public ResponseMessage<ShowUserInformation> LoginUser(LoginModel data)
+        {
+            ResponseMessage<ShowUserInformation> response = new ResponseMessage<ShowUserInformation>();
+            try
+            {
+
+                ShowUserInformation loggedUserDetails = userRepository.UserLogin(data);
+                if (loggedUserDetails != null)
+                {
+                    response.Status = true;
+                    response.Message = "Login successful";
+                    response.Data = loggedUserDetails;
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "Login failed. Please enter correct username and password";
+                    response.Data = loggedUserDetails;
+                }
+            }
+            catch (Exception exception)
+            {
+                response.Status = false;
+                response.Message = "Server error. Error : " + exception.Message;
+                response.Data = null;
+            }
+            return response;
+        }
     }
 }
