@@ -13,7 +13,7 @@ namespace ChatApp.CL.Models
         [DataMember(Name = "Email")]
         [Required(ErrorMessage = "Email is required")]
         [RegularExpression("^[a-zA-Z0-9]{1,}([.]?[-]?[+]?[a-zA-Z0-9]{1,})?[@]{1}[a-zA-Z0-9]{1,}[.]{1}[a-z]{2,3}([.]?[a-z]{2})?$", ErrorMessage = "E-mail is not valid")]
-        public string Email { get; set; }
+        public string EmailID { get; set; }
 
         [DataMember(Name = "Password")]
         [Required(ErrorMessage = "Password is required")]
