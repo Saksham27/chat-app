@@ -10,7 +10,7 @@ namespace ChatApp.CL.Models
     [DataContract]
     public class UserModel
     {
-        [DataMember(Name = "Email")]
+        [DataMember(Name = "EmailID")]
         [Required(ErrorMessage = "Email is required")]
         [RegularExpression("^[a-zA-Z0-9]{1,}([.]?[-]?[+]?[a-zA-Z0-9]{1,})?[@]{1}[a-zA-Z0-9]{1,}[.]{1}[a-z]{2,3}([.]?[a-z]{2})?$", ErrorMessage = "E-mail is not valid")]
         public string EmailID { get; set; }
@@ -23,7 +23,5 @@ namespace ChatApp.CL.Models
         [DataMember(Name = "UserName")]
         [Required(ErrorMessage = "UserName is required")]
         public string UserName { get; set; }
-
-        public DateTime RegistrationDate { get; set; }
     }
 }

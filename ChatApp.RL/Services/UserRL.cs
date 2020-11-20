@@ -1,4 +1,5 @@
 ﻿using ChatApp.CL.Models;
+using ChatApp.RL.Interface;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Text;
 
 namespace ChatApp.RL.Services
 {
-    public class UserRL
+    public class UserRL : IUserRL
     {
         private readonly IConfiguration configuration;
 
@@ -19,7 +20,7 @@ namespace ChatApp.RL.Services
 
         private SqlConnection DatabaseConnection()
         {
-            string connectionString = configuration.GetSection("ConnectionString").GetSection("ParkingLotDB").Value;
+            string connectionString = configuration.GetSection("ConnectionString").GetSection("ChatAppDB").Value;
             return new SqlConnection(connectionString);
         }
 
@@ -30,7 +31,7 @@ namespace ChatApp.RL.Services
             return command;
         }
 
-        public ShowUserInformation RegisterUser(UserModel data)
+        public ShowUserInformation UserRegistration(UserModel data)
         {
             SqlConnection connection = DatabaseConnection();
             try
@@ -40,7 +41,7 @@ namespace ChatApp.RL.Services
                 string encryptedPassword = PasswordEncryptDecrypt.EncodePasswordToBase64(data.Password);
                 //for store procedure and connection to database
                 SqlCommand command = StoredProcedureConnection("spRegisterUser", connection);
-                command.Parameters.AddWithValue("@Email", data.EmailID);
+                command.Parameters.AddWithValue("@EmailID", data.EmailID);
                 command.Parameters.AddWithValue("@Password", encryptedPassword);
                 command.Parameters.AddWithValue("@UserName", data.UserName);
                 command.Parameters.AddWithValue("@RegistrationDate", DateTime.Now);
